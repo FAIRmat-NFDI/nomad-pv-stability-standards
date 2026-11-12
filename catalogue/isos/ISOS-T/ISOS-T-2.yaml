@@ -1,0 +1,31 @@
+name: ISOS-T-2
+reference: https://doi.org/10.1038/s41560-019-0529-5
+notes: Thermal cycling in the dark in an oven or an environmental chamber, in ambient air.
+atmosphere_channel:
+  - gas: air
+    relative_humidity: {control: ambient, monitored: true}
+    oxygen_fraction: {control: ambient}
+opto_electrical_channel:
+  - light: dark
+    current_density: {control: set, minimum: 0 A/m^2, maximum: 0 A/m^2}
+    notes: Open circuit in the dark.
+  - light: solar_simulator
+    voltage: {control: swept}
+    current_density: {monitored: true}
+    notes: >-
+      Periodic J–V scan (p. 37) at an interval the standard does not state: it "depends
+      on the characteristic degradation timescale of each given device" (p. 43).
+options:
+  - notes: >-
+      Cycled between room temperature, read as 23 °C ("23±4 °C", p. 36), and the upper
+      temperature. Path, rate, dwell times and period of the cycle are not stated:
+      "Examples of such cycles are available elsewhere" (p. 38), in Reese et al., Sol.
+      Energy Mater. Sol. Cells 95, 1253–1267 (2011),
+      https://doi.org/10.1016/j.solmat.2011.01.036.
+    alternatives:
+      - label: RT to 65 °C
+        thermal_channel:
+          - temperature: {control: cycled, target: RT, minimum: 23 °C, maximum: 65 °C}
+      - label: RT to 85 °C
+        thermal_channel:
+          - temperature: {control: cycled, target: RT, minimum: 23 °C, maximum: 85 °C}

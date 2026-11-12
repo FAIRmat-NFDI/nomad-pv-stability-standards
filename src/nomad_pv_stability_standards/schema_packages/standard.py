@@ -74,8 +74,8 @@ class Variable(ArchiveSection):
     target = Quantity(
         type=str,
         description="""
-        A value defined by the device rather than by a number, e.g. `MPP`, `V_oc`,
-        `-V_oc` or `-J_MPP`.
+        A named value instead of, or beside, a number: a point of the device, e.g.
+        `MPP`, `V_oc`, `-V_oc` or `-J_MPP`, or a named condition, e.g. `RT`.
         """,
         a_eln=_edit(ELNComponentEnum.StringEditQuantity),
     )
@@ -134,7 +134,10 @@ class Condition(ArchiveSection):
     period = Quantity(
         type=float,
         unit='s',
-        description='The condition repeats every period. Empty: it lasts throughout.',
+        description="""
+        The condition repeats every period. Empty: it lasts throughout, unless its notes
+        say that it repeats at an interval the standard does not state.
+        """,
         a_eln=_edit(ELNComponentEnum.NumberEditQuantity),
         a_display={'unit': 'hour'},
     )

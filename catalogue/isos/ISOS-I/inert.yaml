@@ -1,0 +1,28 @@
+# The protocols in an inert atmosphere, ISOS-I (Table 2, p. 39): each is the protocol it
+# is based on, "with the other parameters kept the same" (p. 42), in an inert atmosphere.
+# Options that change only the atmosphere are dropped, since the inert atmosphere
+# replaces them.
+based_on:
+  - ISOS-D-1
+  - ISOS-D-2
+  - ISOS-V-1
+  - ISOS-V-2
+  - ISOS-L-1
+  - ISOS-L-2
+  - ISOS-T-1
+  - ISOS-T-2
+  - ISOS-T-3
+  - ISOS-LC-1
+  - ISOS-LC-2
+  - ISOS-LC-3
+notes: >-
+  In an inert atmosphere: "intrinsic stability of solar cells in inert atmospheres
+  (nitrogen, argon, and so on) … with the other parameters kept the same" (p. 42).
+atmosphere_channel:
+  - gas: inert, e.g. N2 or Ar
+    relative_humidity: {control: specified}
+    oxygen_fraction: {control: specified}
+    notes: >-
+      Water and oxygen are kept low, but the paper states no limit for either, and names
+      the gas only by example. ISOS-LC-3I and ISOS-T-3I are performed "in the absence of
+      humidity" (p. 42).

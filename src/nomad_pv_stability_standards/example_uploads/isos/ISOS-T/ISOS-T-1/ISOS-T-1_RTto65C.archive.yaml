@@ -1,0 +1,40 @@
+data:
+  m_def: nomad_pv_stability_standards.schema_packages.standard.StabilityStandard
+  name: ISOS-T-1
+  variant: RT to 65 °C
+  reference: https://doi.org/10.1038/s41560-019-0529-5
+  notes: 'Thermal cycling in the dark on a hot plate or in an oven, in ambient air.
+
+
+    Cycled between room temperature, read as 23 °C ("23±4 °C", p. 36), and the upper
+    temperature. Path, rate, dwell times and period of the cycle are not stated: "Examples
+    of such cycles are available elsewhere" (p. 38), in Reese et al., Sol. Energy
+    Mater. Sol. Cells 95, 1253–1267 (2011), https://doi.org/10.1016/j.solmat.2011.01.036.'
+  thermal_channel:
+  - temperature:
+      control: cycled
+      target: RT
+      minimum: 296.15
+      maximum: 338.15
+  opto_electrical_channel:
+  - notes: Open circuit in the dark.
+    light: dark
+    current_density:
+      control: set
+      minimum: 0.0
+      maximum: 0.0
+  - notes: 'Periodic J–V scan (p. 37) at an interval the standard does not state:
+      it "depends on the characteristic degradation timescale of each given device"
+      (p. 43).'
+    light: solar_simulator
+    voltage:
+      control: swept
+    current_density:
+      monitored: true
+  atmosphere_channel:
+  - gas: air
+    relative_humidity:
+      control: ambient
+      monitored: true
+    oxygen_fraction:
+      control: ambient
