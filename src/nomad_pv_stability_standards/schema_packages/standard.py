@@ -221,10 +221,24 @@ class StabilityStandard(EntryData):
         """,
         a_eln=_edit(ELNComponentEnum.RichTextEditQuantity),
     )
-    conditions = SubSection(
-        section_def=Condition,
+    thermal_channel = SubSection(
+        section_def=Thermal,
         repeats=True,
-        description='The conditions of the test: thermal, opto-electrical, atmosphere.',
+        description='The thermal channel of the test.',
+    )
+    opto_electrical_channel = SubSection(
+        section_def=OptoElectrical,
+        repeats=True,
+        description="""
+        The opto-electrical channel of the test. The channel represents both stress and characterization. 
+        e.g. MPP tracking under light and,
+        overlapping it, a periodic J–V scan.
+        """,
+    )
+    atmosphere_channel = SubSection(
+        section_def=Atmosphere,
+        repeats=True,
+        description='The atmosphere channel of the test. ',
     )
 
     def normalize(self, archive: 'EntryArchive', logger: 'BoundLogger') -> None:
