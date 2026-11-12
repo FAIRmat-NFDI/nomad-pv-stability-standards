@@ -189,26 +189,41 @@ class Atmosphere(Condition):
     oxygen_fraction = SubSection(section_def=OxygenFraction)
 
 
-class StabilityStandard(EntryData):
-    """
-    A PV stability standard, or one variant of it: the conditions under which a
-    stability test is run, as a standard such as the ISOS protocols fixes them.
+class Conditions(ArchiveSection):
+    """The conditions of a test, in three channels."""
 
-    A standard that offers options, such as 65 °C or 85 °C, has one entry per
-    combination of options, its variants.
+    thermal_channel = SubSection(
+        section_def=Thermal,
+        repeats=True,
+        description='The thermal channel of the test.',
+    )
+    opto_electrical_channel = SubSection(
+        section_def=OptoElectrical,
+        repeats=True,
+        description="""
+        The opto-electrical channel of the test. The channel represents both stress
+        and characterization, e.g. MPP tracking under light and, overlapping it, a
+        periodic J–V scan.
+        """,
+    )
+    atmosphere_channel = SubSection(
+        section_def=Atmosphere,
+        repeats=True,
+        description='The atmosphere channel of the test.',
+    )
+
+
+class StabilityStandard(EntryData, Conditions):
+    """
+    A PV stability standard: the conditions under which a stability test is run, as a
+    standard such as the ISOS protocols fixes them. Conditions it leaves open, such as
+    65 °C or 85 °C, are its options; they stay empty here and are described in the
+    notes. A test chooses among them in an `AppliedStandard`.
     """
 
     name = Quantity(
         type=str,
         description='The name of the standard as it writes it, e.g. `ISOS-L-2`.',
-        a_eln=_edit(ELNComponentEnum.StringEditQuantity),
-    )
-    variant = Quantity(
-        type=str,
-        description="""
-        The options of the standard that this entry takes, separated by commas, e.g.
-        `65 °C, MPP`. Empty where the entry takes no option.
-        """,
         a_eln=_edit(ELNComponentEnum.StringEditQuantity),
     )
     reference = Quantity(
@@ -219,50 +234,54 @@ class StabilityStandard(EntryData):
     notes = Quantity(
         type=str,
         description="""
-        How the standard's text was read: quotes, options the standard leaves open,
-        and what it does not state.
+        How the standard's text was read: quotes, the options the standard leaves
+        open, and what it does not state.
         """,
         a_eln=_edit(ELNComponentEnum.RichTextEditQuantity),
     )
-    thermal_channel = SubSection(
-        section_def=Thermal,
-        repeats=True,
-        description='The thermal channel of the test.',
-    )
-    opto_electrical_channel = SubSection(
-        section_def=OptoElectrical,
-        repeats=True,
-        description="""
-        The opto-electrical channel of the test. The channel represents both stress and characterization. 
-        e.g. MPP tracking under light and,
-        overlapping it, a periodic J–V scan.
-        """,
-    )
-    atmosphere_channel = SubSection(
-        section_def=Atmosphere,
-        repeats=True,
-        description='The atmosphere channel of the test. ',
-    )
 
     def normalize(self, archive: 'EntryArchive', logger: 'BoundLogger') -> None:
-        """Names the entry after the standard and, in parentheses, its variant, e.g.
-        `ISOS-L-2 (65 °C, MPP)`, and makes the standard's name one of the methods by
-        which NOMAD's apps find entries."""
+        """Names the entry after the standard and makes the standard's name one of the
+        methods by which NOMAD's apps find entries."""
         super().normalize(archive, logger)
 
         self.name = self.name.strip() if self.name else None
-        self.variant = self.variant.strip() if self.variant else None
         if self.name is None:
             return
 
         if archive.metadata is not None:
-            archive.metadata.entry_name = (
-                f'{self.name} ({self.variant})' if self.variant else self.name
-            )
+            archive.metadata.entry_name = self.name
         if archive.results is not None:
             if archive.results.eln is None:
                 archive.results.eln = ELN()
             archive.results.eln.methods = [self.name]
+
+
+class AppliedStandard(Conditions):
+    """
+    A standard as a test applies it: the standard, the choices this test made among
+    its options, and conditions the standard leaves unstated, e.g. the interval of the
+    J–V scans. The full conditions are the standard's together with these.
+    """
+
+    standard = Quantity(
+        type=StabilityStandard,
+        description='The standard that is applied.',
+        a_eln=_edit(ELNComponentEnum.ReferenceEditQuantity),
+    )
+    variant = Quantity(
+        type=str,
+        description="""
+        The choices made among the standard's options, separated by commas, e.g.
+        `85 °C, MPP`. Empty where the standard offers none.
+        """,
+        a_eln=_edit(ELNComponentEnum.StringEditQuantity),
+    )
+    notes = Quantity(
+        type=str,
+        description='How the standard was applied, and where the test departs from it.',
+        a_eln=_edit(ELNComponentEnum.RichTextEditQuantity),
+    )
 
 
 m_package.__init_metainfo__()

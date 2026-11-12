@@ -1,4 +1,3 @@
-import pytest
 from nomad import utils
 from nomad.datamodel import EntryArchive, EntryMetadata
 
@@ -16,27 +15,15 @@ def normalized(**values) -> EntryArchive:
     return archive
 
 
-@pytest.mark.parametrize(
-    'variant, entry_name',
-    [
-        (None, 'ISOS-L-2'),
-        ('65 °C, MPP', 'ISOS-L-2 (65 °C, MPP)'),
-        ('  65 °C, MPP ', 'ISOS-L-2 (65 °C, MPP)'),
-    ],
-)
-def test_the_entry_is_named_after_standard_and_variant(variant, entry_name):
-    assert normalized(name=' ISOS-L-2', variant=variant).metadata.entry_name == (
-        entry_name
-    )
+def test_the_entry_is_named_after_the_standard():
+    assert normalized(name=' ISOS-L-2 ').metadata.entry_name == 'ISOS-L-2'
 
 
 def test_the_standard_is_searchable_as_a_method():
-    archive = normalized(name='ISOS-L-2', variant='65 °C, MPP')
-
-    assert archive.results.eln.methods == ['ISOS-L-2']
+    assert normalized(name='ISOS-L-2').results.eln.methods == ['ISOS-L-2']
 
 
 def test_an_entry_without_name_keeps_the_name_of_its_file():
-    archive = normalized(variant='65 °C')
+    archive = normalized(notes='A standard still to be named.')
 
     assert archive.metadata.entry_name == 'standard.archive.json'

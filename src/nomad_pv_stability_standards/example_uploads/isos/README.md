@@ -26,13 +26,13 @@ Page numbers, Table 1, Table 2 and Fig. 3 in the notes refer to Khenkin et al.
 | ISOS-LT | Solar-thermal cycling | LT-1, LT-2, LT-3 |
 | ISOS-I | The protocols of Table 2 in an inert atmosphere | D-1I, D-2I, V-1I, V-2I, L-1I, L-2I, T-1I, T-2I, T-3I, LC-1I, LC-2I, LC-3I |
 
-The files are in one folder per family and one per protocol, e.g.
-`ISOS-L/ISOS-L-2/`; the inert protocols are in `ISOS-I/`. Every protocol has one entry
-without a variant, e.g. `ISOS-L-2`. It holds the
-conditions all its variants share and lists the options in its notes. Where the
-protocol offers options, such as 65 °C or 85 °C, each combination is a variant of its
-own, e.g. `ISOS-L-2 (65 °C, MPP)`. Search for the name of a protocol to find all its
-variants.
+One entry per protocol, in one folder per family, e.g. `ISOS-L/ISOS-L-2.archive.yaml`;
+the inert protocols are in `ISOS-I/`. An entry holds the conditions the protocol fixes.
+What it leaves open, such as 65 °C or 85 °C, stays empty and is listed in its notes.
+
+A test refers to a protocol through an `AppliedStandard`: the protocol, the choices made
+(its `variant`, e.g. `85 °C, MPP`) and conditions the protocol does not state, such as
+the interval of the J–V scans.
 
 ## How the entries are written
 
@@ -43,7 +43,8 @@ variants.
   opto-electrical (light and electrical state together) and atmosphere. Each variable
   says how it is fixed (`control`) and whether it is recorded (`monitored`).
 - **ISOS-LC-3 is provisional.** The paper gives its humidity as "< 50%" (Table 1) and as
-  "held at 50%" (p. 39); both readings are variants until this is settled.
+  "held at 50%" (p. 39); its entry states the 50 % without saying how it is kept, and an
+  applied standard says which reading it followed.
 - **ISOS-I** entries are the protocols they are based on, in an inert atmosphere, with
   no oxygen or water limit, since the paper states none.
 

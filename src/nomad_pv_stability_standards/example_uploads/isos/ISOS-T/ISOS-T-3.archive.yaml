@@ -1,0 +1,38 @@
+data:
+  m_def: nomad_pv_stability_standards.schema_packages.standard.StabilityStandard
+  name: ISOS-T-3
+  reference: https://doi.org/10.1038/s41560-019-0529-5
+  notes: Thermal cycling in the dark in an environmental chamber.
+  thermal_channel:
+  - notes: 'Path, rate, dwell times and period of the cycle are not stated: "Examples
+      of such cycles are available elsewhere" (p. 38), in Reese et al., Sol. Energy
+      Mater. Sol. Cells 95, 1253–1267 (2011), https://doi.org/10.1016/j.solmat.2011.01.036.'
+    temperature:
+      control: cycled
+      minimum: 233.15  # -40 °C
+      maximum: 358.15  # 85 °C
+  opto_electrical_channel:
+  - notes: Open circuit in the dark.
+    light: dark
+    current_density:
+      control: set
+      minimum: 0.0
+      maximum: 0.0
+  - notes: 'Periodic J–V scan (p. 37) at an interval the standard does not state:
+      it "depends on the characteristic degradation timescale of each given device"
+      (p. 43).'
+    light: solar_simulator
+    voltage:
+      control: swept
+    current_density:
+      monitored: true
+  atmosphere_channel:
+  - notes: '"< 55%", "controlled at temperatures above 40 °C and is not controlled
+      for the remainder of the cycle" (Table 1, footnote b).'
+    gas: air
+    relative_humidity:
+      control: specified
+      monitored: true
+      maximum: 0.55  # 55 %
+    oxygen_fraction:
+      control: ambient
