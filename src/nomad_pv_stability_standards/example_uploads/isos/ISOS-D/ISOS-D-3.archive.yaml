@@ -21,7 +21,11 @@ data:
     current_density:
       monitored: true
   atmosphere_channel:
-  - gas: air
+  - notes: In the dark, the device takes the temperature of the chamber, which is
+      an option, and at which the relative humidity is controlled.
+    gas: air
+    temperature:
+      control: controlled
     relative_humidity:
       control: controlled
       minimum: 0.85  # 85 %

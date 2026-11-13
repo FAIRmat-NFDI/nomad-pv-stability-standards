@@ -9,7 +9,7 @@ data:
   thermal_channel:
   - notes: 'Path, rate, dwell times and period of the cycle are not stated: "Examples
       of such cycles are available elsewhere" (p. 38), in Reese et al., Sol. Energy
-      Mater. Sol. Cells 95, 1253–1267 (2011), https://doi.org/10.1016/j.solmat.2011.01.036.'
+      Mater. Sol. Cells 95, 1253–1267 (2011), <a href="https://doi.org/10.1016/j.solmat.2011.01.036">https://doi.org/10.1016/j.solmat.2011.01.036</a>.'
     temperature:
       control: cycled
       minimum: 248.15  # -25 °C
